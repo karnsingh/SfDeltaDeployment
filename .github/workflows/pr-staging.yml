@@ -31,9 +31,14 @@ jobs:
         echo PATH
     # Runs a set of commands using the runners shell
     - name: 'Decrypt file'
-      run: openssl enc -nosalt -aes-256-cbc -d -in assets/server.key.enc -out server.key -base64 -K ${{secrets.DECRYPTION_KEY}} -iv ${{secrets.DECRYPTION_IV}}
+      run: |
+       echo DECRYPTION_IV value ${{ secrets.DECRYPTION_IV }}
+       echo DECRYPTION_KEY value ${{ secrets.DECRYPTION_KEY }}
+       openssl enc -nosalt -aes-256-cbc -d -in assets/server.key.enc -out server.key -base64 -K ${{secrets.DECRYPTION_KEY}} -iv ${{secrets.DECRYPTION_IV}}
     - name: 'Authorize'
-      run:
+      run: |
+        echo username value ${{ secrets.USERNAME }}
+        echo CONSUMER_KEY value ${{ secrets.CONSUMER_KEY }}
         sfdx force:auth:jwt:grant --client-id=${{ secrets.CONSUMER_KEY }} --username=${{ secrets.USERNAME }} --jwt-key-file server.key --set-default-dev-hub --alias=hub-org
     - name: 'Convert Metadata'
       run: sfdx force:source:convert --rootdir=force-app --outputdir=convert
