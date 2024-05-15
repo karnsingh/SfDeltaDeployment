@@ -27,7 +27,9 @@ jobs:
         mkdir -p ~/cli/sf
         tar xJf sf-linux-x64.tar.xz -C ~/cli/sf --strip-components 1
         export PATH=~/cli/sf/bin:$PATH
-        PATH=~/cli/sf/bin:$PATH
+        # PATH=~/cli/sf/bin:$PATH
+        echo "{PATH}" >> $GITHUB_PATH
+        echo $GITHUB_PATH
         echo $PATH
         sfdx -v
         sf -v
@@ -36,6 +38,7 @@ jobs:
       run: |
         echo username value ${{ secrets.USERNAME }}
         echo CONSUMER_KEY value ${{ secrets.CONSUMER_KEY }}
+        echo $GITHUB_PATH
         echo $PATH
         sf -v
         sfdx force:auth:jwt:grant --client-id=${{ secrets.CONSUMER_KEY }} --username=${{ secrets.USERNAME }} --jwt-key-file assets/server.key --set-default-dev-hub --alias=hub-org
