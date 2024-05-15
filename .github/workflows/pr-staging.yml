@@ -30,12 +30,13 @@ jobs:
         PATH=~/cli/sf/bin:$PATH
         echo $PATH
         sfdx -v
+        sf -v
     # Runs a set of commands using the runners shell
     - name: 'Authorize'
       run: |
         echo username value ${{ secrets.USERNAME }}
         echo CONSUMER_KEY value ${{ secrets.CONSUMER_KEY }}
-        sfdx -v
+        sf -v
         sfdx force:auth:jwt:grant --client-id=${{ secrets.CONSUMER_KEY }} --username=${{ secrets.USERNAME }} --jwt-key-file assets/server.key --set-default-dev-hub --alias=hub-org
     - name: 'Convert Metadata'
       run: sfdx force:source:convert --rootdir=force-app --outputdir=convert
