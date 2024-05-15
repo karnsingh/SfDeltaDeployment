@@ -36,6 +36,7 @@ jobs:
       run: |
         echo username value ${{ secrets.USERNAME }}
         echo CONSUMER_KEY value ${{ secrets.CONSUMER_KEY }}
+        echo $PATH
         sf -v
         sfdx force:auth:jwt:grant --client-id=${{ secrets.CONSUMER_KEY }} --username=${{ secrets.USERNAME }} --jwt-key-file assets/server.key --set-default-dev-hub --alias=hub-org
     - name: 'Convert Metadata'
